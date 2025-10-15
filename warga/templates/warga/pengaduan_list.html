@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Daftar Semua Pengaduan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        }
+        .pengaduan {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .pengaduan:last-child {
+            border-bottom: none;
+        }
+        .judul {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .status {
+            color: #007bff;
+            font-size: 14px;
+        }
+        .kosong {
+            text-align: center;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Daftar Semua Pengaduan</h1>
+
+        <ul>
+            {% for pengaduan in object_list %}
+                <li class="pengaduan">
+                    <span class="judul">{{ pengaduan.judul }}</span><br>
+                    <span>Deskripsi: {{ pengaduan.deskripsi }}</span><br>
+                    <span class="status">Status: {{ pengaduan.status }}</span><br>
+                    <span>Pelapor: {{ pengaduan.pelapor.nama_lengkap }}</span><br>
+                    <span>Tanggal Lapor: {{ pengaduan.tanggal_lapor|date:"d M Y H:i" }}</span>
+                </li>
+            {% empty %}
+                <li class="kosong">Belum ada pengaduan yang tercatat.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
