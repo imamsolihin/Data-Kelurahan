@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detail Warga</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 24px; background:#f7f7fb; }
+    .card { background: #fff; border-radius: 8px; padding: 20px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    h1 { margin-bottom: 16px; }
+    dl { display: grid; grid-template-columns: 150px 1fr; gap: 8px 12px; }
+    dt { font-weight: bold; }
+    dd { margin: 0; }
+    a { display:inline-block; margin-top:16px; text-decoration:none; padding:8px 14px; background:#2563eb; color:white; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Detail Data Warga</h1>
+
+    {% if object %}
+      <dl>
+        <dt>Nama Lengkap</dt>
+        <dd>{{ object.nama_lengkap }}</dd>
+
+        <dt>NIK</dt>
+        <dd>{{ object.nik }}</dd>
+
+        <dt>Alamat</dt>
+        <dd>{{ object.alamat|default:"-" }}</dd>
+
+        <dt>Nomor Telepon</dt>
+        <dd>{{ object.no_telpon|default:"-" }}</dd>
+      </dl>
+    {% else %}
+      <p>Data warga tidak ditemukan.</p>
+    {% endif %}
+
+    <a href="{% url 'warga_list' %}">← Kembali ke Daftar Warga</a>
+  </div>
+</body>
+</html>
+
+<!-- warga/templates/warga/warga_detail.html -->
+
+<!-- ... (kode untuk menampilkan detail NIK, alamat, dll) ... -->
+
+<hr>
+<h2>Daftar Pengaduan oleh {{ object.nama_lengkap }}</h2>
+
+<ul>
+    {% for aduan in object.pengaduan.all %}
+        <li>
+            <strong>{{ aduan.judul }}</strong> (Status: {{ aduan.get_status_display }})
+            <p>{{ aduan.deskripsi }}</p>
+        </li>
+    {% empty %}
+        <li>Warga ini belum pernah membuat pengaduan.</li>
+    {% endfor %}
+</ul>
