@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Hapus Pengaduan</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; padding: 20px; }
+        .card { background: white; padding: 20px; max-width: 500px; margin: auto; border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        button { background: #dc2626; color: white; border: none; padding: 10px 16px; border-radius: 6px;
+                 cursor: pointer; margin-top: 12px; }
+        a { text-decoration: none; color: #2563eb; display: inline-block; margin-top: 10px; }
+        button:hover { background: #b91c1c; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Hapus Pengaduan</h1>
+        <p>Apakah Anda yakin ingin menghapus pengaduan berjudul:</p>
+        <h3>"{{ object.judul }}"</h3>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Ya, Hapus</button>
+        </form>
+        <a href="{% url 'pengaduan-list' %}">Batal</a>
+    </div>
+</body>
+</html>
