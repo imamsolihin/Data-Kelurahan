@@ -1,17 +1,14 @@
-from django.urls import path
-from .views import (
-    WargaListAPIView, 
-    WargaDetailAPIView,
-    PengaduanListAPIView, 
-    PengaduanDetailAPIView
-)
+# warga/api_urls.py
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import WargaViewSet, PengaduanViewSet
 
+# Buat router
+router = DefaultRouter()
+router.register(r'warga', WargaViewSet, basename='warga')        # TAMBAH basename
+router.register(r'pengaduan', PengaduanViewSet, basename='pengaduan')  # TAMBAH basename
+
+# URL patterns otomatis dari router
 urlpatterns = [
-    # Endpoints untuk Warga
-    path('warga/', WargaListAPIView.as_view(), name='api-warga-list'),
-    path('warga/<int:pk>/', WargaDetailAPIView.as_view(), name='api-warga-detail'),
-    
-    # Endpoints untuk Pengaduan
-    path('pengaduan/', PengaduanListAPIView.as_view(), name='api-pengaduan-list'),
-    path('pengaduan/<int:pk>/', PengaduanDetailAPIView.as_view(), name='api-pengaduan-detail'),
+    path('', include(router.urls)),
 ]

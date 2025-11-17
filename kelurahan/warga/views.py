@@ -1,3 +1,4 @@
+# warga/views.py
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView 
 from django.urls import reverse_lazy
@@ -5,15 +6,13 @@ from .models import Warga, Pengaduan
 from .forms import WargaForm, PengaduanForm
 
 # =============================
-# IMPORT UNTUK DRF
-# ============================= 
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+# IMPORT UNTUK DRF VIEWSETS
+# =============================
+from rest_framework import viewsets
 from .serializers import WargaSerializer, PengaduanSerializer
-from .models import Warga
-
 
 # =============================
-# CRUD UNTUK WARGA (HTML)
+# CRUD UNTUK WARGA (HTML) - TETAP ADA
 # =============================
 
 class WargaListView(ListView):
@@ -43,7 +42,7 @@ class WargaDeleteView(DeleteView):
 
 
 # =============================
-# CRUD UNTUK PENGADUAN (HTML)
+# CRUD UNTUK PENGADUAN (HTML) - TETAP ADA
 # =============================
 
 class PengaduanListView(ListView):
@@ -70,25 +69,19 @@ class PengaduanDeleteView(DeleteView):
 
 
 # =============================
-# API VIEWS (JSON)
+# API VIEWSETS (JSON) - GANTI YANG LAMA!
 # =============================
 
-# API untuk mendapatkan daftar semua warga
-class WargaListAPIView(ListAPIView):
-    queryset = Warga.objects.all()
+class WargaViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet untuk CRUD lengkap data Warga
+    """
+    queryset = Warga.objects.all().order_by('-tanggal_registrasi')
     serializer_class = WargaSerializer
 
-# API untuk mendapatkan detail satu warga
-class WargaDetailAPIView(RetrieveAPIView):
-    queryset = Warga.objects.all()
-    serializer_class = WargaSerializer
-
-# API untuk mendapatkan daftar semua pengaduan
-class PengaduanListAPIView(ListAPIView):
-    queryset = Pengaduan.objects.all()
-    serializer_class = PengaduanSerializer
-
-# API untuk mendapatkan detail satu pengaduan
-class PengaduanDetailAPIView(RetrieveAPIView):
-    queryset = Pengaduan.objects.all()
+class PengaduanViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet untuk CRUD lengkap data Pengaduan
+    """
+    queryset = Pengaduan.objects.all().order_by('-tanggal_lapor')
     serializer_class = PengaduanSerializer
